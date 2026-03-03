@@ -1,4 +1,5 @@
 // @ts-check
+import { createRequire } from "module";
 import { retryer } from "../common/retryer.js";
 import {
   CustomError,
@@ -7,6 +8,9 @@ import {
   request,
   wrapTextMultiline,
 } from "../common/utils.js";
+
+const require = createRequire(import.meta.url);
+const languageColors = require("../common/languageColors.json");
 
 /**
  * @typedef {import("axios").AxiosRequestHeaders} AxiosRequestHeaders Axios request headers.
@@ -138,7 +142,7 @@ const fetchTopLanguages = async (
         ...acc,
         [prev.node.name]: {
           name: prev.node.name,
-          color: prev.node.color,
+          color: languageColors[prev.node.name] || prev.node.color,
           size: langSize,
           count: repoCount,
         },
